@@ -1,13 +1,17 @@
 import Logo from "@/components/ui/logo";
+import { useAuthContext } from "@/hooks/useAuth";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
+  const { user } = useAuthContext();
+
   const links = [
     { href: "/", name: "Home" },
-    { href: "/news", name: "News" },
+    ...(user ? [{ href: "/news", name: "News" }] : []),
     { href: "/contact", name: "Contact" },
-    { href: "/log-in", name: "Log in" },
+    ...(user ? [] : [{ href: "/log-in", name: "Log in" }]),
   ];
+
   return (
     <footer className="absolute h-auto w-full border-t border-foreground/10 bg-foreground py-14 dark:bg-background">
       <div className="container relative">
@@ -38,10 +42,10 @@ const Footer = () => {
         </div>
         <hr className="my-10 border-accent/50" />
         <div className="flex w-full flex-col justify-between gap-6 text-accent dark:text-foreground/50 md:flex-row md:gap-0">
-          <p>© 2024 Weather KTEH. All rights reserved.</p>
+          <p>© 2025 Weather STEH. All rights reserved.</p>
           <ul className="flex gap-6">
             <li>
-              <Link to="/">Privacy Policy</Link>
+              <Link to="/">Privacy policy</Link>
             </li>
             <li>
               <Link to="/">Terms</Link>
