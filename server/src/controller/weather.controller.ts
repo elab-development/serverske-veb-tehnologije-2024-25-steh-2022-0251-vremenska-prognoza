@@ -17,8 +17,6 @@ export const getWeather = async (
       `https://api.openweathermap.org/data/2.5/forecast?q=${location}&units=metric&appid=${process.env.WEATHER_API}`
     );
     const data = response.data;
-    console.log(data);
-
     res.send(data);
   } catch (error) {
     next(error);

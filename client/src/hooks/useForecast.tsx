@@ -58,7 +58,6 @@ const useForecast = () => {
         )
         .then((res) => {
           const data = res.data;
-          console.log(data);
           const fiveDaysForecast: DataForecast[] = [];
           const localTime = new Date();
           const localOffset = localTime.getTimezoneOffset() * 60000;
@@ -93,7 +92,7 @@ const useForecast = () => {
         })
         .catch((error) => {
           if (error.response) {
-            // console.clear();
+            console.clear();
           }
           if (signal.aborted) {
             console.log("Request was aborted");

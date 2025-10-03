@@ -1,6 +1,8 @@
+import { toNodeHandler } from "better-auth/node";
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
+import { auth } from "./controller/auth";
 import errorHandler from "./middleware/error";
 import weatherRoutes from "./routes/weather";
 
@@ -16,6 +18,7 @@ app.use(
   })
 );
 
+app.all("/api/auth/{*any}", toNodeHandler(auth));
 app.use(express.json());
 app.use("/api/weather", weatherRoutes);
 
