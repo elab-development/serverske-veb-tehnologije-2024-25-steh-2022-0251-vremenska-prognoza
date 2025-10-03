@@ -1,9 +1,9 @@
 import { useAuthContext } from "@/hooks/useAuth";
-import { toggleFavorite } from "@/lib/api/favorites";
+import { getUserFavorites, toggleFavorite } from "@/lib/api/favorites";
 import { News } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { StarFilledIcon, StarIcon } from "@radix-ui/react-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 interface CardProps {
@@ -15,6 +15,19 @@ interface CardProps {
 const Card = ({ post, index, onToggleFavorite }: CardProps) => {
   const auth = useAuthContext();
   const [favorited, setFavorited] = useState(false);
+
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      if (auth.user?.role !== "user") return;
+      try {
+        const favs = await getUserFavorites();
+        setFavorited(favs.some((f) => f.id === post.id));
+      } catch (err) {
+        console.error("Failed to fetch favorites:", err);
+      }
+    };
+    fetchFavorites();
+  }, [post.id, auth.user?.role]);
 
   const handleFavorite = async (e: React.MouseEvent) => {
     e.preventDefault();
