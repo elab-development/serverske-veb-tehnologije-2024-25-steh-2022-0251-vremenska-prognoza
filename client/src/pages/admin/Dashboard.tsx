@@ -13,6 +13,7 @@ const AdminDashboard: React.FC = () => {
   const [selected, setSelected] = useState<string[]>([]);
 
   const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
 
   const [isUploading, setIsUploading] = useState(false);
   const [form, setForm] = useState({
@@ -21,6 +22,7 @@ const AdminDashboard: React.FC = () => {
     content: "",
     image: "",
   });
+  const [editingPost, setEditingPost] = useState<News | null>(null);
 
   const api = axios.create({
     baseURL: import.meta.env.VITE_SERVER_URL,
@@ -38,6 +40,8 @@ const AdminDashboard: React.FC = () => {
 
   const handleCancel = () => {
     setIsCreateOpen(false);
+    setIsEditOpen(false);
+    setEditingPost(null);
     setForm({ title: "", subtitle: "", content: "", image: "" });
   };
 
@@ -94,6 +98,37 @@ const AdminDashboard: React.FC = () => {
     }
   };
 
+  // Start editing a post
+  const startEdit = (post: News) => {
+    setEditingPost(post);
+    setForm({
+      title: post.title,
+      subtitle: post.subtitle ?? "",
+      content: post.content ?? "",
+      image: post.image ?? "",
+    });
+    setIsEditOpen(true);
+  };
+
+  // Update news
+  const handleUpdate = async () => {
+    try {
+      if (!isFormValid || !editingPost) return;
+      const payload = { ...form };
+      const { data: updated } = await api.put(
+        `/api/news/${editingPost.id}`,
+        payload,
+      );
+      setNews((prev) =>
+        prev.map((post) => (post.id === updated.id ? updated : post)),
+      );
+      await fetchList();
+      handleCancel();
+    } catch (err) {
+      console.error("Edit failed", err);
+    }
+  };
+
   return (
     <div className="container mx-auto mb-20 mt-40 overflow-y-auto">
       <div className="flex w-full items-end justify-between border-b pb-4">
@@ -105,7 +140,7 @@ const AdminDashboard: React.FC = () => {
         </div>
 
         <div className="flex gap-2">
-          {/* Create article dialog */}
+          {/* Create Dialog */}
           <NewsDialog
             isOpen={isCreateOpen}
             onOpenChange={setIsCreateOpen}
@@ -126,6 +161,20 @@ const AdminDashboard: React.FC = () => {
         </div>
       </div>
 
+      {/* Edit article dialog */}
+      <NewsDialog
+        isOpen={isEditOpen}
+        onOpenChange={setIsEditOpen}
+        form={form}
+        setForm={setForm}
+        isUploading={isUploading}
+        onUpload={uploadImage}
+        onSubmit={handleUpdate}
+        dialogTitle="Edit News Article"
+        dialogDescription="Update the fields below and save changes."
+        submitButtonText="Save Changes"
+      />
+
       {/* List of posts */}
       <div className="mt-10 grid grid-cols-1 gap-4">
         {news.map((post) => (
@@ -134,6 +183,7 @@ const AdminDashboard: React.FC = () => {
             post={post}
             isSelected={selected.includes(post.id)}
             onSelect={() => toggleSelect(post.id)}
+            onEdit={startEdit}
           />
         ))}
       </div>

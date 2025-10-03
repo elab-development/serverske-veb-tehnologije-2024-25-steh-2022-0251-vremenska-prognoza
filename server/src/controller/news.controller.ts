@@ -1,4 +1,4 @@
-import { desc, sql } from "drizzle-orm";
+import { desc, eq, sql } from "drizzle-orm";
 import { Request, Response } from "express";
 import { v4 as uuidv4 } from "uuid";
 import { db } from "../db/db";
@@ -32,7 +32,6 @@ export const createNews = async (req: Request, res: Response) => {
 };
 
 // GET ALL
-
 export const getAllNews = async (req: Request, res: Response) => {
   const page = parseInt(req.query.page as string) || 1;
   const limit = parseInt(req.query.limit as string) || 10;
@@ -63,5 +62,28 @@ export const getAllNews = async (req: Request, res: Response) => {
     return res
       .status(500)
       .json({ message: "Error fetching news", error: String(err) });
+  }
+};
+
+// UPDATE
+export const updateNews = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { title, subtitle, content, image } = req.body;
+
+  try {
+    await db
+      .update(news)
+      .set({
+        title,
+        subtitle,
+        content,
+        image,
+        updatedAt: new Date(),
+      })
+      .where(eq(news.id, id));
+
+    res.json({ message: "News updated" });
+  } catch (error) {
+    res.status(500).json({ message: "Error updating news", error });
   }
 };

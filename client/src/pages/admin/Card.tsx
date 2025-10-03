@@ -1,14 +1,17 @@
+import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { News } from "@/lib/types";
 import { cn } from "@/lib/utils";
+import { Pencil1Icon } from "@radix-ui/react-icons";
 
 interface CardProps {
   post: News;
   isSelected: boolean;
   onSelect: () => void;
+  onEdit?: (post: News) => void;
 }
 
-const Card = ({ post, isSelected, onSelect }: CardProps) => {
+const Card = ({ post, isSelected, onSelect, onEdit }: CardProps) => {
   return (
     <div
       onClick={onSelect}
@@ -55,6 +58,18 @@ const Card = ({ post, isSelected, onSelect }: CardProps) => {
                 : ""}
             </div>
           </div>
+          {onEdit && (
+            <Button
+              onClick={(e) => {
+                e.stopPropagation();
+                onEdit(post);
+              }}
+              className="h-8 w-8 rounded bg-secondary p-1 text-secondary-foreground hover:text-white"
+              title="Edit post"
+            >
+              <Pencil1Icon />
+            </Button>
+          )}
         </div>
       </div>
     </div>
