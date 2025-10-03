@@ -1,5 +1,6 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { emailOTP } from "better-auth/plugins";
 import { db } from "../db/db";
 import * as schema from "../db/schema/users";
 
@@ -22,5 +23,10 @@ export const auth = betterAuth({
       },
     },
   },
+  plugins: [
+    emailOTP({
+      async sendVerificationOTP({ email, otp }) {},
+    }),
+  ],
   trustedOrigins: ["http://localhost:5173"],
 });

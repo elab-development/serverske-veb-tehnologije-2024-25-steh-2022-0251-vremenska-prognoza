@@ -6,6 +6,7 @@ import { auth } from "./controller/auth";
 import errorHandler from "./middleware/error";
 import favoritesRoutes from "./routes/favorites";
 import newsRoutes from "./routes/news";
+import passwordRoutes from "./routes/password";
 import weatherRoutes from "./routes/weather";
 
 dotenv.config();
@@ -25,6 +26,7 @@ app.use(express.json());
 app.use("/api/weather", weatherRoutes);
 app.use("/api/news", newsRoutes);
 app.use("/api/favorites", favoritesRoutes);
+app.use("/api/password", passwordRoutes);
 
 app.use(errorHandler);
 
