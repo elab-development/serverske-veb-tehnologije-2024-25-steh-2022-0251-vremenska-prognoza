@@ -8,6 +8,7 @@ import AdminDashboard from "./pages/admin/Dashboard";
 import LogIn from "./pages/auth/LogIn";
 import SignUp from "./pages/auth/SignUp";
 import Contact from "./pages/contact/Contact";
+import Favorites from "./pages/favorites/Favorites";
 import Home from "./pages/home/Home";
 import News from "./pages/news/News";
 import Post from "./pages/news/Post";
@@ -39,6 +40,15 @@ function App() {
                   element={
                     <ProtectedRoute allowedRoles={["user", "admin"]}>
                       <Post />
+                    </ProtectedRoute>
+                  }
+                />
+
+                <Route
+                  path="/favorites"
+                  element={
+                    <ProtectedRoute allowedRoles={["user"]}>
+                      <Favorites />
                     </ProtectedRoute>
                   }
                 />

@@ -96,6 +96,16 @@ const Navbar = ({ user }: { user: User | null; isLoading: boolean }) => {
                       Dashboard
                     </DropdownMenuItem>
                   )}
+                  {user.role === "user" && (
+                    <DropdownMenuItem
+                      onClick={() => {
+                        navigator("/favorites");
+                        setIsOpen(false);
+                      }}
+                    >
+                      Favorites
+                    </DropdownMenuItem>
+                  )}
                   <DropdownMenuItem onClick={handleSignOut}>
                     Sign Out
                   </DropdownMenuItem>
@@ -110,7 +120,6 @@ const Navbar = ({ user }: { user: User | null; isLoading: boolean }) => {
             <ThemeToggler />
             {user && (
               <li className="flex items-center gap-4">
-                {" "}
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="outline" size="icon">
@@ -126,6 +135,16 @@ const Navbar = ({ user }: { user: User | null; isLoading: boolean }) => {
                         }}
                       >
                         Dashboard
+                      </DropdownMenuItem>
+                    )}
+                    {user.role === "user" && (
+                      <DropdownMenuItem
+                        onClick={() => {
+                          navigator("/favorites");
+                          setIsOpen(false);
+                        }}
+                      >
+                        Favorites
                       </DropdownMenuItem>
                     )}
                     <DropdownMenuItem onClick={handleSignOut}>
