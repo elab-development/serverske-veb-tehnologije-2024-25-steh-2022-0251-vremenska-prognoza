@@ -1,8 +1,10 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { ThemeProvider } from "./components/ThemeToggler/theme-provider";
+import { ProtectedRoute } from "./hooks/protectedRoute";
 import { AuthProvider } from "./hooks/useAuth";
 import { ForecastProvider } from "./hooks/useForecast";
 import Layout from "./layout/Layout";
+import AdminDashboard from "./pages/admin/Dashboard";
 import LogIn from "./pages/auth/LogIn";
 import SignUp from "./pages/auth/SignUp";
 import Contact from "./pages/contact/Contact";
@@ -20,6 +22,15 @@ function App() {
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/log-in" element={<LogIn />} />
                 <Route path="/sign-up" element={<SignUp />} />
+
+                <Route
+                  path="/admin"
+                  element={
+                    <ProtectedRoute allowedRoles={["admin"]}>
+                      <AdminDashboard />
+                    </ProtectedRoute>
+                  }
+                />
 
                 <Route path="*" element={<NotFound />} />
               </Route>
