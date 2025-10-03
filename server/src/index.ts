@@ -2,6 +2,7 @@ import { toNodeHandler } from "better-auth/node";
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
+import helmet from "helmet";
 import { auth } from "./controller/auth";
 import errorHandler from "./middleware/error";
 import favoritesRoutes from "./routes/favorites";
@@ -13,6 +14,23 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'"],
+        imgSrc: ["'self'", "data:", "https:"],
+        connectSrc: [
+          "'self'",
+          "http://localhost:5173",
+          "http://localhost:3000",
+        ],
+      },
+    },
+  })
+);
 
 app.use(
   cors({
