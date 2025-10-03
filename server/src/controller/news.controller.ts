@@ -87,3 +87,15 @@ export const updateNews = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Error updating news", error });
   }
 };
+
+// DELETE
+export const deleteNews = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  try {
+    await db.delete(news).where(eq(news.id, id));
+    res.json({ message: "News deleted" });
+  } catch (error) {
+    res.status(500).json({ message: "Error deleting news", error });
+  }
+};
