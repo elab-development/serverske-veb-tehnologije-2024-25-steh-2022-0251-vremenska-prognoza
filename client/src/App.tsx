@@ -6,10 +6,7 @@ import LogIn from "./pages/auth/LogIn";
 import SignUp from "./pages/auth/SignUp";
 import Contact from "./pages/contact/Contact";
 import Home from "./pages/home/Home";
-import News from "./pages/news/News";
-import Post from "./pages/news/Post";
 import NotFound from "./pages/notFound/NotFound";
-
 function App() {
   return (
     <ForecastProvider>
@@ -21,8 +18,8 @@ function App() {
               <Route path="/contact" element={<Contact />} />
               <Route path="/log-in" element={<LogIn />} />
               <Route path="/sign-up" element={<SignUp />} />
-              <Route path="/news" element={<News />} />
-              <Route path="/news/:slug" element={<Post />} />
+              {/* <Route path="/news" element={<News />} />
+              <Route path="/news/:slug" element={<Post />} /> */}
               <Route path="*" element={<NotFound />} />
             </Route>
           </Routes>
