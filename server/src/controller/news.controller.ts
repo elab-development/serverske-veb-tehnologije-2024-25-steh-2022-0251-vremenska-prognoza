@@ -99,3 +99,33 @@ export const deleteNews = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Error deleting news", error });
   }
 };
+
+// GET BY ID
+export const getNewsById = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    const [row] = await db.select().from(news).where(eq(news.id, id));
+    if (!row) return res.status(404).json({ message: "News not found" });
+    return res.json(row);
+  } catch (err) {
+    console.error(err);
+    return res
+      .status(500)
+      .json({ message: "Error fetching news", error: String(err) });
+  }
+};
+
+// GET BY SLUG
+export const getNewsBySlug = async (req: Request, res: Response) => {
+  const { slug } = req.params;
+  try {
+    const [row] = await db.select().from(news).where(eq(news.slug, slug));
+    if (!row) return res.status(404).json({ message: "News not found" });
+    return res.json(row);
+  } catch (err) {
+    console.error(err);
+    return res
+      .status(500)
+      .json({ message: "Error fetching news", error: String(err) });
+  }
+};
