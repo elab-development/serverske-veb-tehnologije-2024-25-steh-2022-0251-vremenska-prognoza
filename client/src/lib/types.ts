@@ -8,3 +8,15 @@ export type User = {
   image?: string | null;
   role: string;
 };
+
+export type News = {
+  id: string;
+  title: string;
+  subtitle: string;
+  content: string;
+  slug: string;
+  image: string;
+  authorId: string;
+  createdAt: string;
+  updatedAt: string;
+};
