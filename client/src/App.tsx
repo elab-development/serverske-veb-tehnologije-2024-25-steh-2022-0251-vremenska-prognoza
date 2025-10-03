@@ -5,8 +5,11 @@ import { AuthProvider } from "./hooks/useAuth";
 import { ForecastProvider } from "./hooks/useForecast";
 import Layout from "./layout/Layout";
 import AdminDashboard from "./pages/admin/Dashboard";
+import ForgotPasswordPage from "./pages/auth/ForgotPasswordPage";
 import LogIn from "./pages/auth/LogIn";
+import ResetPasswordPage from "./pages/auth/ResetPasswordPage";
 import SignUp from "./pages/auth/SignUp";
+import VerifyOtpPage from "./pages/auth/VerifyOtpPage";
 import Contact from "./pages/contact/Contact";
 import Favorites from "./pages/favorites/Favorites";
 import Home from "./pages/home/Home";
@@ -26,7 +29,12 @@ function App() {
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/log-in" element={<LogIn />} />
                 <Route path="/sign-up" element={<SignUp />} />
-
+                <Route
+                  path="/forgot-password"
+                  element={<ForgotPasswordPage />}
+                />
+                <Route path="/verify-otp" element={<VerifyOtpPage />} />
+                <Route path="/reset-password" element={<ResetPasswordPage />} />
                 <Route
                   path="/news"
                   element={
