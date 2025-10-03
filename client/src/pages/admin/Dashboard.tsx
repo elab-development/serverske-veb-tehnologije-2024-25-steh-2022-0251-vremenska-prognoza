@@ -1,6 +1,9 @@
 import { Button } from "@/components/ui/button";
+import DeleteDialog from "@/components/ui/delete-dialog";
+import { toast } from "@/components/ui/use-toast";
 import { useAuthContext } from "@/hooks/useAuth";
 import { News } from "@/lib/types";
+import { ToastClass } from "@/models/toast-class";
 import { PlusIcon } from "@radix-ui/react-icons";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -14,6 +17,7 @@ const AdminDashboard: React.FC = () => {
 
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   const [isUploading, setIsUploading] = useState(false);
   const [form, setForm] = useState({
@@ -129,6 +133,27 @@ const AdminDashboard: React.FC = () => {
     }
   };
 
+  // Delete selected posts
+  const handleDeleteSelected = async () => {
+    if (!selected.length) return;
+    try {
+      await Promise.all(selected.map((id) => api.delete(`/api/news/${id}`)));
+      setNews((prev) => prev.filter((post) => !selected.includes(post.id)));
+      setSelected([]);
+    } catch (err) {
+      console.error("Failed to delete posts", err);
+      toast(
+        ToastClass.create("destructive")
+          .setTitle("Failed to delete posts")
+          .setDescription(
+            selected.length > 1
+              ? `Some of the ${selected.length} posts could not be deleted.`
+              : "The post could not be deleted.",
+          ),
+      );
+    }
+  };
+
   return (
     <div className="container mx-auto mb-20 mt-40 overflow-y-auto">
       <div className="flex w-full items-end justify-between border-b pb-4">
@@ -158,6 +183,23 @@ const AdminDashboard: React.FC = () => {
               </Button>
             }
           />
+
+          {selected.length > 0 && (
+            <>
+              <Button
+                variant="destructive"
+                onClick={() => setIsDeleteDialogOpen(true)}
+              >
+                Delete ({selected.length})
+              </Button>
+              <DeleteDialog
+                isOpen={isDeleteDialogOpen}
+                onClose={() => setIsDeleteDialogOpen(false)}
+                itemCount={selected.length}
+                onConfirm={handleDeleteSelected}
+              />
+            </>
+          )}
         </div>
       </div>
 
