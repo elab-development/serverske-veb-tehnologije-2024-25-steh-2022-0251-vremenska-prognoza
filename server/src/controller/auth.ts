@@ -3,6 +3,7 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { emailOTP } from "better-auth/plugins";
 import { db } from "../db/db";
 import * as schema from "../db/schema/users";
+import { sendEmail } from "./email";
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
@@ -26,7 +27,11 @@ export const auth = betterAuth({
   plugins: [
     emailOTP({
       async sendVerificationOTP({ email, otp }) {
-        console.log(`Sending OTP ${otp} to email: ${email}`);
+        await sendEmail({
+          to: email,
+          subject: "Verify your email",
+          html: `Your verification code is: ${otp}`,
+        });
       },
     }),
   ],
