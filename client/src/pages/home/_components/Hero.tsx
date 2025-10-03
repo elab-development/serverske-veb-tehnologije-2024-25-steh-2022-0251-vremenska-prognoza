@@ -25,7 +25,7 @@ const Hero = () => {
                 className="sm:mt-1"
                 height={100}
                 width={100}
-                src={`http://openweathermap.org/img/wn/${forecastData?.weather[0]?.icon}@2x.png`}
+                src={`https://openweathermap.org/img/wn/${forecastData?.weather[0]?.icon}@2x.png`}
                 alt="Weather icon"
                 decoding="async"
               />

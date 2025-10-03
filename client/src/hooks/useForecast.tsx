@@ -51,9 +51,9 @@ const useForecast = () => {
       setIsLoading(true);
       axios
         .get(
-          `https://api.openweathermap.org/data/2.5/forecast?q=${location}&units=metric&appid=${import.meta.env.VITE_WEATHER_API}`,
+          `${import.meta.env.VITE_SERVER_URL}/api/weather?location=${location}`,
           {
-            signal,
+            signal: signal,
           },
         )
         .then((res) => {
@@ -91,7 +91,9 @@ const useForecast = () => {
           }
         })
         .catch((error) => {
-          console.error(error);
+          if (error.response) {
+            // console.clear();
+          }
           if (signal.aborted) {
             console.log("Request was aborted");
             return;
