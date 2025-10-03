@@ -1,5 +1,6 @@
 import {
   boolean,
+  mysqlEnum,
   mysqlTable,
   text,
   timestamp,
@@ -17,6 +18,7 @@ export const user = mysqlTable("user", {
     .defaultNow()
     .$onUpdate(() => /* @__PURE__ */ new Date())
     .notNull(),
+  role: mysqlEnum("role", ["user", "admin"]).default("user").notNull(),
 });
 
 export const session = mysqlTable("session", {
