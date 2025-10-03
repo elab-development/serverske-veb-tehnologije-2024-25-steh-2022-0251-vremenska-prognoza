@@ -19,9 +19,7 @@ const AdminDashboard: React.FC = () => {
     title: "",
     subtitle: "",
     content: "",
-    // test image
-    image:
-      "https://www.ydr.com/gcdn/media/2018/02/16/PAGroup/YorkDailyRecord/636543689783396308-weather-news.jpg?crop=1918,1084,x0,y0&width=1918&height=1084&format=pjpg&auto=webp",
+    image: "",
   });
 
   const api = axios.create({
@@ -74,8 +72,26 @@ const AdminDashboard: React.FC = () => {
     }
   };
 
-  const uploadImage = async () => {
-    // setIsUploading(true);
+  // Upload image to Cloudinary
+  const uploadImage = async (files: FileList) => {
+    if (!files[0]) return;
+    setIsUploading(true);
+    const formData = new FormData();
+    formData.append("file", files[0]);
+    formData.append("upload_preset", import.meta.env.VITE_CLOUDINARY_PRESET);
+
+    try {
+      const { data } = await axios.post(
+        `https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}/image/upload`,
+        formData,
+      );
+      if (data.secure_url)
+        setForm((prev) => ({ ...prev, image: data.secure_url }));
+    } catch (err) {
+      console.error("Image upload failed:", err);
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   return (
