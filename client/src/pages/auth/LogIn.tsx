@@ -116,7 +116,14 @@ const LogIn = () => {
             >
               {isLoading ? "Loading..." : "Log In"}
             </Button>
-
+            <p className="mt-2 text-right text-sm">
+              <Link
+                to="/forgot-password"
+                className="text-foreground hover:underline"
+              >
+                Forgot password?
+              </Link>
+            </p>
             <div className="my-6 flex w-full items-center text-center text-accent dark:text-foreground/50">
               <div className="flex-1 border-b border-input"></div>
               <p className="mx-2 text-sm">Or</p>
