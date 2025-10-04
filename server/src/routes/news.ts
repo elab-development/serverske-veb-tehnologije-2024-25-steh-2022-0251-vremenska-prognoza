@@ -6,7 +6,7 @@ import {
   getNewsById,
   getNewsBySlug,
   updateNews,
-} from "../controller/news.controller";
+} from "../controllers/news.controller";
 import { requireAdmin } from "../middleware/requireAdmin";
 
 const router = Router();

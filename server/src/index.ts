@@ -3,7 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import helmet from "helmet";
-import { auth } from "./controller/auth";
+import { auth } from "./controllers/auth";
 import errorHandler from "./middleware/error";
 import favoritesRoutes from "./routes/favorites";
 import newsRoutes from "./routes/news";

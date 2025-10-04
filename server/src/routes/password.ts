@@ -3,7 +3,7 @@ import {
   requestOtp,
   resetPassword,
   verifyOtp,
-} from "../controller/password.controller";
+} from "../controllers/password.controller";
 
 const router = Router();
 

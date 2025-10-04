@@ -2,7 +2,7 @@ import { Router } from "express";
 import {
   getUserFavorites,
   toggleFavorite,
-} from "../controller/favorites.controller";
+} from "../controllers/favorites.controller";
 import { requireUser } from "../middleware/requireUser";
 
 const router = Router();

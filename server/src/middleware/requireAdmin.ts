@@ -1,6 +1,6 @@
 import { fromNodeHeaders } from "better-auth/node";
 import { NextFunction, Request, Response } from "express";
-import { auth } from "../controller/auth";
+import { auth } from "../controllers/auth";
 
 export interface AuthenticatedRequest extends Request {
   user?: {
